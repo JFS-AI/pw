@@ -41,7 +41,7 @@ public class VectorStreamSemaphore {
                     sync.acquire(1);
                     syncAck.release(1);
                 } catch (InterruptedException e) {
-                    System.out.println("Interrupted");
+                    System.err.println("Interrupted");
                 }
             }
         }
@@ -88,7 +88,7 @@ public class VectorStreamSemaphore {
                 try {
                     t.join();
                 } catch (InterruptedException e) {
-                    System.out.println("Interrupted while joining.");
+                    System.err.println("Interrupted while joining.");
                 }
             }
         }

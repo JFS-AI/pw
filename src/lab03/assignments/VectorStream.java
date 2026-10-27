@@ -10,7 +10,7 @@ public class VectorStream {
     private static final int VECTOR_LENGTH = 100;
     private static int sum = 0;
     private static final int[] vector = new int[VECTOR_LENGTH];
-    private static int vectorNo = 1;
+    private static int vectorNo = 0;
     private static final CyclicBarrier barrier = new CyclicBarrier(VECTOR_LENGTH,
         new BarrierAction());
 
@@ -43,15 +43,15 @@ public class VectorStream {
 
         @Override
         public void run() {
-            for (int i = 0; i < STREAM_LENGTH; i++) {
-                vector[idx] = vectorDefinition.applyAsInt(sum, idx);
-                try {
+            try {
+                for (int i = 0; i < STREAM_LENGTH; i++) {
+                    vector[idx] = vectorDefinition.applyAsInt(sum, idx);
                     barrier.await();
-                } catch (BrokenBarrierException e) {
-                    System.out.println("Broken barrier");
-                } catch (InterruptedException e) {
-                    System.out.println("Interrupted");
                 }
+            } catch (BrokenBarrierException e) {
+                    System.err.println("Broken barrier");
+            } catch (InterruptedException e) {
+                    System.err.println("Interrupted");
             }
         }
     }
@@ -85,7 +85,7 @@ public class VectorStream {
                 try {
                     t.join();
                 } catch (InterruptedException e) {
-                    System.out.println("Interrupted while joining.");
+                    System.err.println("Interrupted while joining.");
                 }
             }
         }

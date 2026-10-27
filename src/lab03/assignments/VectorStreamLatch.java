@@ -31,14 +31,14 @@ public class VectorStreamLatch {
 
         @Override
         public void run() {
-            for (int i = 0; i < STREAM_LENGTH; i++) {
-                try {
+            try {
+                for (int i = 0; i < STREAM_LENGTH; i++) {
                     vector[idx] = vectorDefinition.applyAsInt(sum, idx);
                     endSignal.countDown();
                     startSignal.await();
-                } catch (InterruptedException e) {
-                    System.out.println("Interrupted");
                 }
+            } catch (InterruptedException e) {
+                System.out.println("Interrupted");
             }
         }
     }
